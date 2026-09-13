@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مجمع فريق الابتسامة الطبي | Numarah Smile Team Medical Complex</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Cairo & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- QRCode JS Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            800: '#115e59',
+                            900: '#134e4a',
+                        },
+                        medical: {
+                            blue: '#0284c7',
+                            dark: '#0f172a'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
+        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        .hero-gradient { background: linear-gradient(135deg, #0f766e 0%, #0284c7 100%); }
+        .pulse-badge { animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.05); opacity: 0.8; } 100% { transform: scale(1); opacity: 1; } }
+        
+        @media print {
+            body * { visibility: hidden; }
+            #printableStand, #printableStand * { visibility: visible; }
+            #printableStand { position: absolute; left: 0; top: 0; width: 100%; height: 100%; border: none !important; box-shadow: none !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col justify-between">
+
+    <!-- Pitch Mode Banner for Developer Presentation -->
+    <div id="pitchBanner" class="bg-amber-500 text-slate-900 px-4 py-2.5 text-xs md:text-sm font-bold flex flex-wrap justify-between items-center shadow-inner z-50 gap-2">
+        <div class="flex items-center gap-2">
+            <span class="bg-slate-900 text-amber-400 px-2 py-0.5 rounded text-xs">منصة نمرة الطبية 🏥</span>
+            <span>بوابة <strong>مجمع فريق الابتسامة الطبي بنمرة</strong> المحدثة بالأطباء والتقييمات المباشرة.</span>
+        </div>
+        <div class="flex items-center gap-2">
+            <button onclick="toggleQRModal()" class="bg-emerald-800 text-white px-3 py-1 rounded-lg hover:bg-emerald-900 transition flex items-center gap-1.5">
+                <i class="fa-solid fa-qrcode"></i>
+                <span>مولد ستاند QR الاستقبال</span>
+            </button>
+            <button onclick="togglePitchModal()" class="bg-slate-900 text-white px-3 py-1 rounded-lg hover:bg-slate-800 transition flex items-center gap-1.5">
+                <i class="fa-solid fa-list-check"></i>
+                <span>دليل التسليم والتصحيح</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-brand-600 to-medical-blue flex items-center justify-center text-white text-2xl shadow-lg shadow-brand-500/20">
+                    <i class="fa-solid fa-tooth"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-slate-900 leading-tight">مجمع فريق الابتسامة الطبي</h1>
+                    <p class="text-xs text-brand-700 font-semibold flex items-center gap-1">
+                        <i class="fa-solid fa-location-dot"></i> نمرة - الشارع العام (مقابل HMH8+VP)
+                    </p>
+                </div>
+            </div>
+
+            <!-- Operating Status & Quick Contact -->
+            <div class="hidden lg:flex items-center gap-6">
+                <div class="flex items-center gap-3 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-xl">
+                    <span class="relative flex h-3 w-3">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                    </span>
+                    <div>
+                        <div class="text-xs font-bold text-emerald-800">مفتوح الآن لاستقبالكم</div>
+                        <div class="text-[10px] text-emerald-600">يومياً: 8:00 صباحاً - 11:30 مساءً</div>
+                    </div>
+                </div>
+
+                <a id="navPhoneLink" href="tel:0566007778" class="flex items-center gap-2 text-slate-700 font-bold hover:text-brand-600 transition">
+                    <div class="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center text-brand-600">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                    <span id="navPhoneDisplay">056 600 7778</span>
+                </a>
+
+                <a href="#bookingSection" class="bg-brand-600 hover:bg-brand-700 text-white font-bold px-5 py-2.5 rounded-xl shadow-lg shadow-brand-600/25 transition transform active:scale-95">
+                    احجز موعدك الآن
+                </a>
+            </div>
+
+            <!-- Mobile Quick Call Button -->
+            <div class="flex lg:hidden items-center gap-2">
+                <a id="mobileCallBtn" href="tel:0566007778" class="p-2.5 rounded-xl bg-brand-50 text-brand-600 border border-brand-200">
+                    <i class="fa-solid fa-phone text-lg"></i>
+                </a>
+                <a href="#bookingSection" class="bg-brand-600 text-white font-bold px-3.5 py-2 rounded-xl text-sm">
+                    حجز سريع
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <!-- Hero Section -->
+        <section class="relative hero-gradient text-white overflow-hidden py-16 lg:py-24">
+            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-10"></div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-7 space-y-6 text-center lg:text-right">
+                        <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-1.5 rounded-full text-amber-300 text-sm font-semibold border border-white/20 shadow-sm">
+                            <i class="fa-solid fa-star"></i>
+                            <span>نخبة الأطباء والتمريض بمدينة نمرة والعرضيات</span>
+                        </div>
+                        <h1 class="text-3xl sm:text-5xl font-black leading-tight">
+                            رعاية طبية متكاملة لابتسامتك وصحة عائلتك
+                        </h1>
+                        <p class="text-slate-100 text-base sm:text-lg leading-relaxed max-w-2xl">
+                            عيادات طب الأسنان، الجلدية والتجميل، الأطفال والطب العام والمختبر والطوارئ. نوفر لك أحدث الأجهزة الكفيلة براحتك مثل جهاز أفلانش لليزر والتعقيم التام.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
+                            <a href="#bookingSection" class="bg-white text-brand-800 hover:bg-slate-100 font-bold px-8 py-4 rounded-xl shadow-xl transition flex items-center justify-center gap-3 text-lg">
+                                <i class="fa-solid fa-calendar-check text-brand-600"></i>
+                                <span>احجز موعدك اختر طبيبك فوراً</span>
+                            </a>
+                            <a id="heroWhatsAppBtn" href="https://wa.me/966566007778?text=%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%A7%D9%84%D9%85%D9%88%D8%A7%D8%B9%D9%8A%D8%AF" target="_blank" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-6 py-4 rounded-xl shadow-lg transition flex items-center justify-center gap-3">
+                                <i class="fa-brands fa-whatsapp text-2xl"></i>
+                                <span>تواصل واتساب المجمع</span>
+                            </a>
+                        </div>
+                        <!-- Features Badges -->
+                        <div class="grid grid-cols-3 gap-4 pt-8 border-t border-white/10 text-xs sm:text-sm font-medium">
+                            <div class="flex items-center justify-center lg:justify-start gap-2">
+                                <i class="fa-solid fa-clock text-amber-300"></i>
+                                <span>حجز دقيق بالفترة (صباح/مساء)</span>
+                            </div>
+                            <div class="flex items-center justify-center lg:justify-start gap-2">
+                                <i class="fa-solid fa-user-doctor text-amber-300"></i>
+                                <span>طاقم طبي وتمريضي ذو خبرة</span>
+                            </div>
+                            <div class="flex items-center justify-center lg:justify-start gap-2">
+                                <i class="fa-solid fa-wand-magic-sparkles text-amber-300"></i>
+                                <span>ليزر أفلانش وتجميل بالليزر</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Highlight Card featuring glowing review for Staff -->
+                    <div class="lg:col-span-5">
+                        <div class="glass-card text-slate-800 p-6 rounded-3xl shadow-2xl border border-white/40 space-y-4 relative">
+                            <div class="absolute -top-3 -right-3 bg-amber-400 text-slate-900 font-bold px-3 py-1 rounded-full text-xs shadow-md">
+                                <i class="fa-solid fa-thumbs-up"></i> إشادة مراجعي نمرة
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="w-14 h-14 rounded-full bg-slate-200 border-2 border-brand-500 flex items-center justify-center text-slate-600 font-bold text-xl">
+                                    د.ي
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-slate-900 text-lg">عيادة الأسنان والتجميل</h3>
+                                    <p class="text-xs text-brand-600 font-semibold">تحت إشراف د. يوسف وطاقم التمريض</p>
+                                </div>
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-sm text-slate-600 italic">
+                                "تعاملي مع الدكتور يوسف شغل أعلى من الممتاز والنيرس فاطمة قمة في الأخلاق والتعامل والروح المرحة... يستحقون كل خير وثناء!"
+                            </div>
+                            <div class="flex items-center justify-between text-xs text-slate-500 border-t pt-3">
+                                <div class="flex text-amber-400 gap-1 text-sm">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <span>تقييم موثق على خرائط Google</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Booking Engine -->
+        <section id="bookingSection" class="py-16 bg-slate-100">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6">
+                <div class="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden">
+                    <div class="bg-slate-900 text-white p-6 sm:p-8 text-center relative">
+                        <div class="inline-block bg-brand-600 text-white text-xs font-bold px-3 py-1 rounded-full mb-2">
+                            نظام المواعيد الإلكتروني الفوري
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-bold">اختر العيادة والطبيب واحجز موعدك</h2>
+                        <p class="text-slate-400 text-sm mt-2">حدد الفترة المناسبة (صباحية أو مسائية) لضمان عدم الانتظار في العيادة</p>
+                    </div>
+
+                    <form id="bookingForm" onsubmit="handleBookingSubmit(event)" class="p-6 sm:p-8 space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <!-- Patient Name -->
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-2">اسم المراجع الكامل *</label>
+                                <div class="relative">
+                                    <input type="text" required id="patientName" placeholder="مثال: محمد عبد الله القرني" class="w-full pl-4 pr-10 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition">
+                                    <i class="fa-solid fa-user absolute right-3 top-3.5 text-slate-400"></i>
+                                </div>
+                            </div>
+
+                            <!-- Patient Phone -->
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-2">رقم الجوال *</label>
+                                <div class="relative">
+                                    <input type="tel" required id="patientPhone" placeholder="05XXXXXXXX" pattern="[0-9]{10}" class="w-full pl-4 pr-10 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition">
+                                    <i class="fa-solid fa-phone absolute right-3 top-3.5 text-slate-400"></i>
+                                </div>
+                            </div>
+
+                            <!-- Department Selection -->
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-2">العيادة / القسم الطبي *</label>
+                                <select id="clinicDept" required onchange="updateDoctorsList()" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition">
+                                    <option value="dental">عيادة طب وجراحة الأسنان</option>
+                                    <option value="laser">عيادة الجلدية والليزر وتنشيط البشرة</option>
+                                    <option value="pediatrics">عيادة الطب العام والأطفال</option>
+                                    <option value="emergency">قسم المختبر، التمريض والطوارئ</option>
+                                </select>
+                            </div>
+
+                            <!-- Doctor Selection -->
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-2">الطبيب / الأخصائي المعالج *</label>
+                                <select id="doctorSelect" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition">
+                                    <!-- Populated via JS -->
+                                </select>
+                            </div>
+
+                            <!-- Preferred Shift / Period -->
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-2">فترة الحجز المفضل *</label>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <label class="flex items-center justify-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition border-slate-300 has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50 has-[:checked]:text-brand-700">
+                                        <input type="radio" name="shift" value="morning" required class="hidden">
+                                        <div class="text-center">
+                                            <i class="fa-solid fa-sun text-amber-500 block mb-1"></i>
+                                            <span class="text-xs font-bold">صباحاً (8 ص - 12 ظ)</span>
+                                        </div>
+                                    </label>
+                                    <label class="flex items-center justify-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition border-slate-300 has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50 has-[:checked]:text-brand-700">
+                                        <input type="radio" name="shift" value="evening" checked required class="hidden">
+                                        <div class="text-center">
+                                            <i class="fa-solid fa-moon text-indigo-500 block mb-1"></i>
+                                            <span class="text-xs font-bold">مساءً (4 ع - 11:30 م)</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Date Picker -->
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-2">تاريخ الحجز المفضل *</label>
+                                <input type="date" required id="bookingDate" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition">
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="pt-4">
+                            <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-4 rounded-xl shadow-lg transition text-center flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                <span>تأكيد طلب الحجز والحصول على التذكرة الرقمية</span>
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Ticket Result Modal Simulation -->
+                    <div id="ticketResult" class="hidden p-6 sm:p-8 bg-emerald-50 border-t border-emerald-200 text-center space-y-4">
+                        <div class="w-16 h-16 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto text-3xl">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-emerald-900">تم تسجيل طلب حجزك بنجاح!</h3>
+                        <p class="text-emerald-700 text-sm">تم إعداد التذكرة الإلكترونية وإرسال النسخة لتأكيدها مع الاستقبال عبر الواتساب.</p>
+                        
+                        <div class="bg-white p-4 rounded-2xl border border-emerald-200 text-right max-w-md mx-auto space-y-2 text-sm shadow-sm">
+                            <div class="flex justify-between border-b pb-2">
+                                <span class="text-slate-500">اسم المراجع:</span>
+                                <span id="resName" class="font-bold">--</span>
+                            </div>
+                            <div class="flex justify-between border-b pb-2">
+                                <span class="text-slate-500">العيادة والطبيب:</span>
+                                <span id="resClinic" class="font-bold">--</span>
+                            </div>
+                            <div class="flex justify-between border-b pb-2">
+                                <span class="text-slate-500">الفترة والتاريخ:</span>
+                                <span id="resTime" class="font-bold text-brand-700">--</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-500">رقم الموعد المرجعي:</span>
+                                <span id="resCode" class="font-mono font-bold text-slate-800">#SMILE-8821</span>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+                            <a id="whatsappSendBtn" href="#" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl shadow transition flex items-center justify-center gap-2">
+                                <i class="fa-brands fa-whatsapp text-lg"></i>
+                                <span>إرسال التذكرة للاستقبال عبر الواتساب</span>
+                            </a>
+                            <button onclick="resetBookingForm()" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold px-6 py-3 rounded-xl transition">
+                                حجز موعد آخر
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Departments Showcase -->
+        <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <h2 class="text-3xl font-bold text-slate-900">عياداتنا وتخصصاتنا الطبية الشاملة</h2>
+                <p class="text-slate-600 mt-2">يضم مجمع فريق الابتسامة أحدث التقنيات وأفضل الكوادر الطبية بمدينة نمرة</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Dental Clinic -->
+                <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition space-y-4">
+                    <div class="w-14 h-14 bg-brand-100 text-brand-700 rounded-2xl flex items-center justify-center text-2xl">
+                        <i class="fa-solid fa-tooth"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900">طب وجراحة الأسنان</h3>
+                    <ul class="text-xs text-slate-600 space-y-2">
+                        <li><i class="fa-solid fa-check text-brand-600 ml-1.5"></i> علاج العصب وتنظيف التسوس (بدون ألم)</li>
+                        <li><i class="fa-solid fa-check text-brand-600 ml-1.5"></i> الحشوات التجميلية وتلميع الأسنان</li>
+                        <li><i class="fa-solid fa-check text-brand-600 ml-1.5"></i> التركيبات وجراحة الأسنان المتقدمة</li>
+                    </ul>
+                    <div class="pt-2 border-t text-[11px] text-brand-700 font-bold">
+                        الأطباء: د. يوسف | د. علي البارقي | د. كمال | د. جاويد
+                    </div>
+                </div>
+
+                <!-- Laser & Dermatology -->
+                <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition space-y-4">
+                    <div class="w-14 h-14 bg-purple-100 text-purple-700 rounded-2xl flex items-center justify-center text-2xl">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900">الجلدية والعناية بالبشرة</h3>
+                    <ul class="text-xs text-slate-600 space-y-2">
+                        <li><i class="fa-solid fa-check text-purple-600 ml-1.5"></i> إزالة الشعر بأحدث جهاز ليزر (أفلانش)</li>
+                        <li><i class="fa-solid fa-check text-purple-600 ml-1.5"></i> تشقير الحواجب بالليزر وتنظيف البشرة</li>
+                        <li><i class="fa-solid fa-check text-purple-600 ml-1.5"></i> جلسات التجميل تحت إشراف متخصصات</li>
+                    </ul>
+                    <div class="pt-2 border-t text-[11px] text-purple-700 font-bold">
+                        الفريق: د. وجدان | الأخصائية هند | الممرضة فاطمة
+                    </div>
+                </div>
+
+                <!-- Pediatrics & General Medicine -->
+                <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition space-y-4">
+                    <div class="w-14 h-14 bg-sky-100 text-sky-700 rounded-2xl flex items-center justify-center text-2xl">
+                        <i class="fa-solid fa-baby"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900">الأطفال والطب العام</h3>
+                    <ul class="text-xs text-slate-600 space-y-2">
+                        <li><i class="fa-solid fa-check text-sky-600 ml-1.5"></i> متابعة صحة وأمراض الأطفال</li>
+                        <li><i class="fa-solid fa-check text-sky-600 ml-1.5"></i> تشخيص الأمراض المزمنة والضغط</li>
+                        <li><i class="fa-solid fa-check text-sky-600 ml-1.5"></i> الاستشارات والفحوصات الدورية</li>
+                    </ul>
+                    <div class="pt-2 border-t text-[11px] text-sky-700 font-bold">
+                        الأطباء: د. عادل (الأطفال) | د. نسمة الصواف
+                    </div>
+                </div>
+
+                <!-- Laboratory & Emergency Care -->
+                <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition space-y-4">
+                    <div class="w-14 h-14 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center text-2xl">
+                        <i class="fa-solid fa-vials"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900">المختبر والتمريض المباشر</h3>
+                    <ul class="text-xs text-slate-600 space-y-2">
+                        <li><i class="fa-solid fa-check text-emerald-600 ml-1.5"></i> سحب الدم والمغزيات بدون ألم</li>
+                        <li><i class="fa-solid fa-check text-emerald-600 ml-1.5"></i> الفحوصات الشاملة والمخبرية السريعة</li>
+                        <li><i class="fa-solid fa-check text-emerald-600 ml-1.5"></i> العناية بالطوارئ والإسعافات الأولية</li>
+                    </ul>
+                    <div class="pt-2 border-t text-[11px] text-emerald-700 font-bold">
+                        الفريق: الممرضة نور | إسراء | نجلاء
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Real Patient Google Reviews Section -->
+        <section class="py-16 bg-slate-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+                <div class="text-center max-w-2xl mx-auto">
+                    <div class="inline-flex items-center gap-1.5 bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs font-bold mb-3">
+                        <i class="fa-brands fa-google text-amber-600"></i>
+                        <span>آراء حقيقية لمراجعي المجمع في Google Maps</span>
+                    </div>
+                    <h2 class="text-3xl font-bold text-slate-900">ماذا يقول أهالي نمرة والعرضيات عنا؟</h2>
+                </div>
+
+                <!-- Reviews Grid -->
+                <div class="grid md:grid-cols-3 gap-6">
+                    <!-- Review 1: Dr. Ali Al-Bariqi -->
+                    <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-3 relative">
+                        <div class="flex items-center justify-between">
+                            <div class="flex text-amber-400 gap-1 text-xs">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <span class="text-[10px] text-slate-400">القرني</span>
+                        </div>
+                        <p class="text-xs text-slate-700 leading-relaxed italic">
+                            "لو في 6 نجوم يستحقها وبجداره الدكتور علي أخصائي أسنان، صراحة رجل محترم ويستحق الاحترام والتقدير وشغله عالي العال👌🏻"
+                        </p>
+                        <div class="pt-3 border-t text-[11px] font-bold text-brand-700 flex items-center justify-between">
+                            <span>عيادة الأسنان</span>
+                            <span class="text-slate-400 text-[10px]">د. علي البارقي</span>
+                        </div>
+                    </div>
+
+                    <!-- Review 2: Dr. Nesma Al-Sawaf -->
+                    <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-3 relative">
+                        <div class="flex items-center justify-between">
+                            <div class="flex text-amber-400 gap-1 text-xs">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <span class="text-[10px] text-slate-400">محمد جعفر (مرشد محلي)</span>
+                        </div>
+                        <p class="text-xs text-slate-700 leading-relaxed italic">
+                            "مركز متكامل الخدمات والخدمة جداً ممتازة وأحب اشكر الدكتورة نسمة الصواف تعاملها جداً ممتاز مع زوجتي الله يسعدها يارب موثقين دايماً."
+                        </p>
+                        <div class="pt-3 border-t text-[11px] font-bold text-brand-700 flex items-center justify-between">
+                            <span>الطب العام والأطفال</span>
+                            <span class="text-slate-400 text-[10px]">د. نسمة الصواف</span>
+                        </div>
+                    </div>
+
+                    <!-- Review 3: Nurse Hind - Laser -->
+                    <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-3 relative">
+                        <div class="flex items-center justify-between">
+                            <div class="flex text-amber-400 gap-1 text-xs">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <span class="text-[10px] text-slate-400">سارة الغامدي</span>
+                        </div>
+                        <p class="text-xs text-slate-700 leading-relaxed italic">
+                            "تعامل ذوق وأخلاقهم حلوة كويسة جداً، بنات الاستقبال يهبلون وهند تبع الليزر إنسانة قمة بالأدب والرقي وشغلها جدا بروفيشنال شكراً لكم ❤️"
+                        </p>
+                        <div class="pt-3 border-t text-[11px] font-bold text-brand-700 flex items-center justify-between">
+                            <span>قسم الجلدية والليزر</span>
+                            <span class="text-slate-400 text-[10px]">الأخصائية هند</span>
+                        </div>
+                    </div>
+
+                    <!-- Review 4: Dr. Adel - Pediatrics -->
+                    <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-3 relative">
+                        <div class="flex items-center justify-between">
+                            <div class="flex text-amber-400 gap-1 text-xs">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <span class="text-[10px] text-slate-400">Ashraf Imam</span>
+                        </div>
+                        <p class="text-xs text-slate-700 leading-relaxed italic">
+                            "د. عادل قسم الأطفال بسم الله ما شاء الله على حسن الاستقبال وربنا بيجعل الشفاء على يديه."
+                        </p>
+                        <div class="pt-3 border-t text-[11px] font-bold text-brand-700 flex items-center justify-between">
+                            <span>عيادة الأطفال</span>
+                            <span class="text-slate-400 text-[10px]">د. عادل</span>
+                        </div>
+                    </div>
+
+                    <!-- Review 5: Nurse Esraa - Emergency -->
+                    <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-3 relative">
+                        <div class="flex items-center justify-between">
+                            <div class="flex text-amber-400 gap-1 text-xs">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <span class="text-[10px] text-slate-400">Fatima Ali</span>
+                        </div>
+                        <p class="text-xs text-slate-700 leading-relaxed italic">
+                            "أحب أشكر السستر إسراء على تعاملها الراقي وأخلاقها العالية، متعاونة وبشوشة وتشرح بهدوء وحسستني بالراحة من أول لحظة 💙"
+                        </p>
+                        <div class="pt-3 border-t text-[11px] font-bold text-brand-700 flex items-center justify-between">
+                            <span>التمريض والطوارئ</span>
+                            <span class="text-slate-400 text-[10px]">الممرضة إسراء</span>
+                        </div>
+                    </div>
+
+                    <!-- Review 6: Dr. Kamal -->
+                    <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-3 relative">
+                        <div class="flex items-center justify-between">
+                            <div class="flex text-amber-400 gap-1 text-xs">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <span class="text-[10px] text-slate-400">محمد القرني</span>
+                        </div>
+                        <p class="text-xs text-slate-700 leading-relaxed italic">
+                            "أشكر الدكتور كمال على اهتمامه وأسلوبه الأكثر من رائع كما أشكر الممرضة نجلاء في قمة الاحترام وما شاء الله يدها خفيفة في الإبرة."
+                        </p>
+                        <div class="pt-3 border-t text-[11px] font-bold text-brand-700 flex items-center justify-between">
+                            <span>عيادة الأسنان والطوارئ</span>
+                            <span class="text-slate-400 text-[10px]">د. كمال & ن. نجلاء</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Virtual Medical Assistant Chatbot -->
+        <section class="py-12 bg-slate-900 text-white">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6">
+                <div class="bg-slate-800 rounded-3xl p-6 sm:p-8 border border-slate-700 shadow-2xl space-y-6">
+                    <div class="flex items-center justify-between border-b border-slate-700 pb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-brand-500 flex items-center justify-center text-slate-900 font-bold">
+                                <i class="fa-solid fa-robot"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg">المساعد الذكي لمجمع الابتسامة بنمرة</h3>
+                                <p class="text-xs text-slate-400">اسأل عن الأطباء (د.يوسف، د.علي، د.نسمة، د.عادل)، أوقات العمل، والليزر</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="toggleApiKeyModal()" class="bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs px-3 py-1.5 rounded-xl border border-slate-600 transition flex items-center gap-1.5" title="إعداد مفتاح الذكاء الاصطناعي">
+                                <i class="fa-solid fa-key text-amber-400"></i>
+                                <span>مفتاح API</span>
+                            </button>
+                            <span class="bg-brand-500/20 text-brand-300 text-xs px-3 py-1 rounded-full border border-brand-500/30 hidden sm:inline">Gemini AI</span>
+                        </div>
+                    </div>
+
+                    <!-- Chat Messages Window -->
+                    <div id="chatBox" class="h-64 overflow-y-auto space-y-3 p-3 bg-slate-950/50 rounded-2xl border border-slate-800 text-sm">
+                        <div class="flex gap-2">
+                            <div class="bg-slate-800 text-slate-200 p-3 rounded-2xl max-w-xs sm:max-w-md text-xs leading-relaxed">
+                                أهلاً بك! أنا المساعد الذكي لمجمع فريق الابتسامة الطبي بنمرة. يمكنك سؤالي عن الأطباء المتاحين، أوقات العمل، أو حجز موعد.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Input Controls -->
+                    <div class="flex gap-2">
+                        <input type="text" id="userChatInput" placeholder="اكتب سؤالك هنا (مثال: متى يفتح المجمع؟ أو مين أفضل دكتور أسنان أو ليزر؟)" class="flex-grow bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-500 text-white" onkeypress="if(event.key==='Enter') sendChatMessage()">
+                        <button onclick="sendChatMessage()" class="bg-brand-600 hover:bg-brand-500 text-white font-bold px-6 py-3 rounded-xl transition flex items-center justify-center">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Smart Google Review Protection Section -->
+        <section class="py-16 bg-white">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center space-y-6">
+                <div class="inline-block bg-amber-100 text-amber-800 font-bold px-4 py-1.5 rounded-full text-xs">
+                    رأيك يهمنا جداً لتطوير خدماتنا
+                </div>
+                <h2 class="text-3xl font-bold text-slate-900">كيف كانت تجربتك في مجمع فريق الابتسامة؟</h2>
+                <p class="text-slate-600 text-sm max-w-xl mx-auto">نحرص دائماً على تقديم أعلى مستويات الخدمة، نرجو تقييم تجربتك لمساعدتنا في التحسين المستمر</p>
+
+                <!-- Interactive Star Selection -->
+                <div class="flex justify-center gap-2 text-3xl text-slate-300" id="starRatingContainer">
+                    <button onclick="rateClinic(1)" class="hover:text-amber-400 transition"><i class="fa-solid fa-star"></i></button>
+                    <button onclick="rateClinic(2)" class="hover:text-amber-400 transition"><i class="fa-solid fa-star"></i></button>
+                    <button onclick="rateClinic(3)" class="hover:text-amber-400 transition"><i class="fa-solid fa-star"></i></button>
+                    <button onclick="rateClinic(4)" class="hover:text-amber-400 transition"><i class="fa-solid fa-star"></i></button>
+                    <button onclick="rateClinic(5)" class="hover:text-amber-400 transition"><i class="fa-solid fa-star"></i></button>
+                </div>
+
+                <!-- Review Action Area -->
+                <div id="ratingActionBox" class="hidden p-6 rounded-2xl border max-w-lg mx-auto">
+                    <!-- Dynamic JS Content -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Reception Acrylic Stand QR Generator Modal -->
+    <div id="qrModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 space-y-6 text-right">
+            <div class="flex justify-between items-center border-b pb-4">
+                <div class="flex items-center gap-2">
+                    <span class="bg-emerald-500 text-white font-bold px-2.5 py-1 rounded-lg text-xs">أداة الاستقبال 🖨️</span>
+                    <h3 class="text-xl font-bold text-slate-900">مولد ستاند الـ QR الكود للاستقبال</h3>
+                </div>
+                <button onclick="toggleQRModal()" class="text-slate-400 hover:text-slate-600 text-xl font-bold">✕</button>
+            </div>
+
+            <!-- Stand Customizer Controls -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-2xl border text-sm">
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1 text-xs">رقم الواتساب الخاص بالمجمع:</label>
+                    <input type="text" id="configPhoneInput" value="966566007778" oninput="updateClinicPhone()" class="w-full p-2.5 rounded-xl border border-slate-300 font-mono text-xs focus:ring-2 focus:ring-brand-500">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1 text-xs">هدف الـ QR Code:</label>
+                    <select id="qrTargetSelect" onchange="generateReceptionQR()" class="w-full p-2.5 rounded-xl border border-slate-300 text-xs">
+                        <option value="booking">حجز المواعيد الفوري والتقييم الذكي (الموقع الكامل)</option>
+                        <option value="whatsapp">التواصل المباشر مع الواتساب</option>
+                        <option value="google">صفحة تقييم Google مباشرة (5 نجوم)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Printable Tabletop Stand Preview Template -->
+            <div id="printableStand" class="border-2 border-dashed border-brand-500 p-8 rounded-3xl text-center space-y-4 bg-gradient-to-b from-teal-50 to-white shadow-md relative">
+                <div class="w-16 h-16 bg-brand-600 text-white rounded-2xl flex items-center justify-center text-3xl mx-auto shadow-lg">
+                    <i class="fa-solid fa-tooth"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-extrabold text-slate-900">مجمع فريق الابتسامة الطبي</h2>
+                    <p class="text-xs text-brand-700 font-bold mt-0.5">نمرة - الشارع العام | العرضيات</p>
+                </div>
+
+                <div class="bg-white p-4 inline-block rounded-2xl border-2 border-slate-200 shadow-inner">
+                    <div id="qrcodeCanvas" class="flex justify-center p-2"></div>
+                </div>
+
+                <div class="space-y-1">
+                    <p class="text-base font-bold text-slate-800">امسح الكود بكاميرا الجوال 📱</p>
+                    <p id="qrDescriptionText" class="text-xs text-slate-600 max-w-xs mx-auto">للحجز المباشر والسريع دون انتظار، وتقييم تجربتك في المجمع بسهولة</p>
+                </div>
+
+                <div class="text-[10px] text-slate-400 border-t pt-3 flex justify-between items-center max-w-sm mx-auto">
+                    <span>خدمة المرضى الفورية</span>
+                    <span>واتساب: <span id="standPhoneDisplay">0566007778</span></span>
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center pt-2">
+                <button onclick="window.print()" class="bg-brand-600 hover:bg-brand-700 text-white font-bold px-6 py-3 rounded-xl text-sm flex items-center gap-2 shadow">
+                    <i class="fa-solid fa-print"></i>
+                    <span>طباعة الستاند الآن (مقاس A5/A4 للاستقبال)</span>
+                </button>
+                <button onclick="toggleQRModal()" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold px-5 py-3 rounded-xl text-sm">
+                    إغلاق
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Technical Pitch & Delivery Manual Modal -->
+    <div id="pitchModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 space-y-6 text-right">
+            <div class="flex justify-between items-center border-b pb-4">
+                <div class="flex items-center gap-2">
+                    <span class="bg-amber-500 text-slate-900 font-bold px-2.5 py-1 rounded-lg text-xs">خطة التسليم والتنفيذ 🚀</span>
+                    <h3 class="text-xl font-bold text-slate-900">دليل التسليم التقني والمالي لمجمع الابتسامة</h3>
+                </div>
+                <button onclick="togglePitchModal()" class="text-slate-400 hover:text-slate-600 text-xl font-bold">✕</button>
+            </div>
+
+            <!-- Delivery Steps Guidance -->
+            <div class="space-y-4 text-sm text-slate-700 leading-relaxed">
+                <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-2">
+                    <h4 class="font-bold text-brand-800 flex items-center gap-2 text-base">
+                        <span class="bg-brand-600 text-white rounded-full w-6 h-6 inline-flex items-center justify-center text-xs">1</span>
+                        تسليم الموقع الإلكتروني وحجزه (Domain & Hosting):
+                    </h4>
+                    <p class="text-xs text-slate-600">
+                        قم برفع هذا الملف (`index.html`) على منصات استضافة مثل Vercel أو Netlify أو Hostinger واشترِ نطاقاً خاصاً للمجمع مثل: <code class="bg-slate-200 px-1 py-0.5 rounded font-mono">smile-numarah.com</code>.
+                    </p>
+                </div>
+
+                <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl space-y-2 text-emerald-950">
+                    <h4 class="font-bold flex items-center gap-2 text-base">
+                        <span class="bg-emerald-600 text-white rounded-full w-6 h-6 inline-flex items-center justify-center text-xs">2</span>
+                        ربط واتساب المجمع التفاعلي (WhatsApp Link):
+                    </h4>
+                    <p class="text-xs">
+                        يقوم الموقع بتوليد رسالة الموعد تلقائياً ويفتحها في شاشة الواتساب الخاصة بمسؤول الاستقبال بالمجمع لتأكيد الحجز فوراً.
+                    </p>
+                </div>
+
+                <div class="p-4 bg-amber-50 border border-amber-200 rounded-2xl space-y-2 text-amber-950">
+                    <h4 class="font-bold flex items-center gap-2 text-base">
+                        <span class="bg-amber-600 text-white rounded-full w-6 h-6 inline-flex items-center justify-center text-xs">3</span>
+                        تجهيز ستاند الأكريليك للاستقبال (Physical QR Stand):
+                    </h4>
+                    <p class="text-xs">
+                        اضغط <strong>طباعة</strong> من أداة الـ QR المضمنة، وضعه داخل حامل أكريليك شفاف بـ 15 ريالاً على طاولات الانتظار.
+                    </p>
+                </div>
+            </div>
+
+            <div class="flex justify-end pt-2">
+                <button onclick="togglePitchModal()" class="bg-slate-900 text-white font-bold px-6 py-2.5 rounded-xl text-sm">
+                    إغلاق العرض والعودة للمعاينة
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gemini API Key Settings Modal -->
+    <div id="apiKeyModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-slate-800 border border-slate-700 rounded-3xl max-w-md w-full p-6 text-right text-white space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-700 pb-3">
+                <h3 class="font-bold text-lg flex items-center gap-2">
+                    <i class="fa-solid fa-key text-amber-400"></i> إعداد مفتاح الذكاء الاصطناعي (Gemini)
+                </h3>
+                <button onclick="toggleApiKeyModal()" class="text-slate-400 hover:text-slate-200">✕</button>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+                يمكنك إدخال مفتاح مجاني من Google Gemini ليعمل المساعد الذكي التفاعلي مباشرةً.
+            </p>
+            <div>
+                <label class="block text-xs font-bold text-slate-300 mb-1">مفتاح Google Gemini API Key:</label>
+                <input type="password" id="userApiKeyInput" placeholder="AIzaSy..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-brand-500">
+            </div>
+            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700 text-[11px] text-slate-400 space-y-1">
+                <p class="font-bold text-amber-400">💡 كيفية الحصول على مفتاح مجاني:</p>
+                <p>1. افتح رابط <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-brand-400 underline">Google AI Studio</a>.</p>
+                <p>2. اضغط <strong>Create API key</strong> وانسخ الكود هنا.</p>
+            </div>
+            <div class="flex gap-2 pt-2">
+                <button onclick="saveApiKey()" class="flex-1 bg-brand-600 hover:bg-brand-500 text-white font-bold py-2.5 rounded-xl text-xs transition">
+                    حفظ المفتاح
+                </button>
+                <button onclick="clearApiKey()" class="bg-rose-900/40 border border-rose-800 text-rose-300 font-bold px-4 py-2.5 rounded-xl text-xs hover:bg-rose-900/60 transition">
+                    مسح
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-400 py-12 border-t border-slate-900 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="space-y-3">
+                <h4 class="text-white font-bold text-lg">مجمع فريق الابتسامة الطبي</h4>
+                <p class="text-xs leading-relaxed">الرعاية الطبية المتكاملة، طب وجراحة الأسنان، الجلدية والليزر، والأطفال بمدينة نمرة - العرضيات، المملكة العربية السعودية.</p>
+            </div>
+            <div class="space-y-2">
+                <h5 class="text-white font-bold">أوقات العمل</h5>
+                <p class="text-xs">السبت - الخميس: 8:00 صباحاً - 11:30 مساءً</p>
+                <p class="text-xs">الجمعة: مراجعات وحالات طوارئ</p>
+            </div>
+            <div class="space-y-2">
+                <h5 class="text-white font-bold">العنوان والتواصل</h5>
+                <p class="text-xs"><i class="fa-solid fa-location-dot text-brand-500 ml-1"></i> الشارع العام، نمرة 21952 (HMH8+VP)</p>
+                <p class="text-xs"><i class="fa-solid fa-phone text-brand-500 ml-1"></i> <span id="footerPhoneDisplay">056 600 7778</span></p>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-600 mt-8 pt-6 border-t border-slate-900">
+            © 2026 جميع الحقوق محفوظة - مجمع فريق الابتسامة الطبي بنمرة
+        </div>
+    </footer>
+
+    <script>
+        // Global Clinic WhatsApp Config (Default: 966566007778)
+        let clinicPhone = "966566007778";
+        let qrCodeObj = null;
+
+        window.onload = function() {
+            // Set default date to today
+            document.getElementById('bookingDate').min = new Date().toISOString().split('T')[0];
+            document.getElementById('bookingDate').value = new Date().toISOString().split('T')[0];
+            updateDoctorsList();
+            generateReceptionQR();
+        };
+
+        // Dynamic Doctor list update based on selected department
+        function updateDoctorsList() {
+            const dept = document.getElementById('clinicDept').value;
+            const docSelect = document.getElementById('doctorSelect');
+            docSelect.innerHTML = '';
+
+            if (dept === 'dental') {
+                docSelect.innerHTML = `
+                    <option value="د. يوسف (طب وجراحة الأسنان)">د. يوسف (طب وجراحة الأسنان)</option>
+                    <option value="د. علي البارقي (أخصائي أسنان)">د. علي البارقي (أخصائي أسنان)</option>
+                    <option value="د. كمال (طبيب أسنان)">د. كمال (طبيب أسنان)</option>
+                    <option value="د. جاويد (جراحة الأسنان)">د. جاويد (أخصائي جراحة أسنان)</option>
+                    <option value="أول طبيب أسنان متاح">أول طبيب أسنان متاح</option>
+                `;
+            } else if (dept === 'laser') {
+                docSelect.innerHTML = `
+                    <option value="الأخصائية هند (ليزر وبشرة وتشقير)">الأخصائية هند (ليزر وتشقير وتنظيف بشرة)</option>
+                    <option value="د. وجدان (الجلدية والليزر)">د. وجدان (طبيبة الجلدية والتجميل)</option>
+                    <option value="الممرضة فاطمة (عناية بالبشرة)">الممرضة فاطمة (عناية بالبشرة وتشقير)</option>
+                `;
+            } else if (dept === 'pediatrics') {
+                docSelect.innerHTML = `
+                    <option value="د. عادل (قسم الأطفال)">د. عادل (أخصائي الأطفال)</option>
+                    <option value="د. نسمة الصواف (طب عام وأطفال)">د. نسمة الصواف (طب عام وأطفال)</option>
+                    <option value="أول طبيب متاح">أول طبيب متاح</option>
+                `;
+            } else {
+                docSelect.innerHTML = `
+                    <option value="الممرضة إسراء (طوارئ وتمريض)">الممرضة إسراء (طوارئ وتمريض)</option>
+                    <option value="الممرضة نور (فحوصات سحب الدم والمختبر)">الممرضة نور (المختبر وسحب الدم)</option>
+                    <option value="الممرضة نجلاء (طوارئ وعلاجات)">الممرضة نجلاء (طوارئ وعلاجات)</option>
+                `;
+            }
+        }
+
+        // Toggle Modals
+        function togglePitchModal() {
+            document.getElementById('pitchModal').classList.toggle('hidden');
+        }
+
+        function toggleQRModal() {
+            document.getElementById('qrModal').classList.toggle('hidden');
+            if (!document.getElementById('qrModal').classList.contains('hidden')) {
+                generateReceptionQR();
+            }
+        }
+
+        function toggleApiKeyModal() {
+            document.getElementById('apiKeyModal').classList.toggle('hidden');
+            const savedKey = localStorage.getItem('smile_gemini_key') || '';
+            document.getElementById('userApiKeyInput').value = savedKey;
+        }
+
+        function saveApiKey() {
+            const key = document.getElementById('userApiKeyInput').value.trim();
+            if (key) {
+                localStorage.setItem('smile_gemini_key', key);
+                alert('تم حفظ مفتاح API بنجاح! سيعمل الذكاء الاصطناعي الآن بشكل ممتاز.');
+            } else {
+                localStorage.removeItem('smile_gemini_key');
+                alert('تم مسح المفتاح.');
+            }
+            toggleApiKeyModal();
+        }
+
+        function clearApiKey() {
+            localStorage.removeItem('smile_gemini_key');
+            document.getElementById('userApiKeyInput').value = '';
+            alert('تم مسح المفتاح المخزن.');
+            toggleApiKeyModal();
+        }
+
+        // Update Phone Number dynamically across site
+        function updateClinicPhone() {
+            const rawPhone = document.getElementById('configPhoneInput').value.trim();
+            if (!rawPhone) return;
+            clinicPhone = rawPhone.replace('+', '').replace(/\s+/g, '');
+            
+            let formattedDisplay = clinicPhone.startsWith('966') ? '0' + clinicPhone.substring(3) : clinicPhone;
+
+            document.getElementById('navPhoneDisplay').innerText = formattedDisplay;
+            document.getElementById('footerPhoneDisplay').innerText = formattedDisplay;
+            document.getElementById('standPhoneDisplay').innerText = formattedDisplay;
+            document.getElementById('navPhoneLink').href = `tel:${formattedDisplay}`;
+            document.getElementById('mobileCallBtn').href = `tel:${formattedDisplay}`;
+            
+            document.getElementById('heroWhatsAppBtn').href = `https://wa.me/${clinicPhone}?text=${encodeURIComponent('السلام عليكم، أود الاستفسار عن المواعيد والخدمات الطبية')}`;
+            
+            generateReceptionQR();
+        }
+
+        // Generate QR Code dynamically
+        function generateReceptionQR() {
+            const qrCanvas = document.getElementById('qrcodeCanvas');
+            const targetType = document.getElementById('qrTargetSelect').value;
+            const descText = document.getElementById('qrDescriptionText');
+            qrCanvas.innerHTML = '';
+
+            let targetURL = window.location.href;
+            
+            if (targetType === 'whatsapp') {
+                targetURL = `https://wa.me/${clinicPhone}?text=${encodeURIComponent('السلام عليكم، حياكم الله مجمع فريق الابتسامة الطبي')}`;
+                descText.innerText = "امسح الكود للتواصل المباشر مع استقبال مجمع الابتسامة عبر الواتساب";
+            } else if (targetType === 'google') {
+                targetURL = "https://maps.app.goo.gl/2URUfbwMVtb28vat9";
+                descText.innerText = "شاركنا تقييمك ورأيك في الخدمة على خرائط Google وساعدنا في تقديم الأفضل";
+            } else {
+                descText.innerText = "للحجز المباشر والسريع دون انتظار، وتقييم تجربتك في المجمع بسهولة";
+            }
+
+            qrCodeObj = new QRCode(qrCanvas, {
+                text: targetURL,
+                width: 160,
+                height: 160,
+                colorDark : "#0f766e",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        }
+
+        // Booking form submission handler
+        function handleBookingSubmit(event) {
+            event.preventDefault();
+            const name = document.getElementById('patientName').value;
+            const phone = document.getElementById('patientPhone').value;
+            const clinic = document.getElementById('clinicDept').options[document.getElementById('clinicDept').selectedIndex].text;
+            const doctor = document.getElementById('doctorSelect').value;
+            const shiftVal = document.querySelector('input[name="shift"]:checked').value;
+            const shiftText = shiftVal === 'morning' ? 'الفترة الصباحية (8 ص - 12 ظ)' : 'الفترة المسائية (4 ع - 11:30 م)';
+            const date = document.getElementById('bookingDate').value;
+            const refCode = `#SMILE-${Math.floor(1000 + Math.random() * 9000)}`;
+
+            // Render Result
+            document.getElementById('resName').innerText = name;
+            document.getElementById('resClinic').innerText = `${clinic} - (${doctor})`;
+            document.getElementById('resTime').innerText = `${date} - ${shiftText}`;
+            document.getElementById('resCode').innerText = refCode;
+            
+            // Generate WhatsApp link
+            const waMsg = encodeURIComponent(`مرحباً مجمع فريق الابتسامة الطبي، أود تأكيد موعدي:\n\n👤 الاسم: ${name}\n📞 الجوال: ${phone}\n🏥 العيادة: ${clinic}\n👨‍⚕️ الطبيب: ${doctor}\n📅 التاريخ والتوقيت: ${date} (${shiftText})\n🏷️ المرجع: ${refCode}`);
+            document.getElementById('whatsappSendBtn').href = `https://wa.me/${clinicPhone}?text=${waMsg}`;
+
+            // Toggle view
+            document.getElementById('bookingForm').classList.add('hidden');
+            document.getElementById('ticketResult').classList.remove('hidden');
+        }
+
+        function resetBookingForm() {
+            document.getElementById('bookingForm').reset();
+            document.getElementById('bookingForm').classList.remove('hidden');
+            document.getElementById('ticketResult').classList.add('hidden');
+            updateDoctorsList();
+        }
+
+        // Smart Google Rating Booster logic
+        function rateClinic(stars) {
+            const container = document.getElementById('starRatingContainer');
+            const actionBox = document.getElementById('ratingActionBox');
+            
+            const buttons = container.querySelectorAll('button');
+            buttons.forEach((btn, index) => {
+                if (index < stars) {
+                    btn.classList.add('text-amber-400');
+                    btn.classList.remove('text-slate-300');
+                } else {
+                    btn.classList.remove('text-amber-400');
+                    btn.classList.add('text-slate-300');
+                }
+            });
+
+            actionBox.classList.remove('hidden');
+
+            if (stars >= 4) {
+                actionBox.className = "p-6 rounded-2xl bg-emerald-50 border border-emerald-200 max-w-lg mx-auto text-center space-y-3";
+                actionBox.innerHTML = `
+                    <h4 class="font-bold text-emerald-900 text-lg">يسعدنا جداً أن الخدمة نالت إعجابك! 🌟</h4>
+                    <p class="text-xs text-emerald-700">نسعد بمشاركة تجربتك الإيجابية على الخرائط لدعم الكادر الطبي ومساعدة باقي المراجعين بنمرة.</p>
+                    <a href="https://maps.app.goo.gl/2URUfbwMVtb28vat9" target="_blank" class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-2.5 rounded-xl text-sm transition">
+                        <i class="fa-brands fa-google text-lg ml-1"></i> أضف تقييمك على خرائط Google الآن
+                    </a>
+                `;
+            } else {
+                actionBox.className = "p-6 rounded-2xl bg-amber-50 border border-amber-200 max-w-lg mx-auto text-right space-y-3";
+                actionBox.innerHTML = `
+                    <h4 class="font-bold text-amber-900 text-base text-center">نعتذر عن أي تقصير وشكواك محل اهتمام إدارة المجمع مباشرة</h4>
+                    <p class="text-xs text-amber-800">يرجى كتابة ملاحظتك وسنقوم بالتواصل معك وتسوية الأمر فوراً:</p>
+                    <textarea id="feedbackText" rows="3" placeholder="اكتب ملاحظتك هنا..." class="w-full p-3 rounded-xl border border-amber-300 text-xs focus:outline-none"></textarea>
+                    <button onclick="sendPrivateFeedback()" class="w-full bg-slate-900 text-white font-bold py-2.5 rounded-xl text-xs">
+                        إرسال لمدير العيادة مباشرة (سرّي)
+                    </button>
+                `;
+            }
+        }
+
+        function sendPrivateFeedback() {
+            alert('شكراً لتواصلك. تم إرسال ملاحظتك مباشرة لإدارة مجمع فريق الابتسامة للتعامل معها بكل اهتمام.');
+            document.getElementById('ratingActionBox').classList.add('hidden');
+        }
+
+        // Gemini AI Assistant Chat Call Integration
+        async function sendChatMessage() {
+            const inputEl = document.getElementById('userChatInput');
+            const chatBox = document.getElementById('chatBox');
+            const userMsg = inputEl.value.trim();
+
+            if (!userMsg) return;
+
+            // Render User Message
+            chatBox.innerHTML += `
+                <div class="flex gap-2 justify-end">
+                    <div class="bg-brand-600 text-white p-3 rounded-2xl max-w-xs sm:max-w-md text-xs">
+                        ${userMsg}
+                    </div>
+                </div>
+            `;
+            inputEl.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Render Loading state
+            const loadingId = 'loading-' + Date.now();
+            chatBox.innerHTML += `
+                <div id="${loadingId}" class="flex gap-2">
+                    <div class="bg-slate-800 text-slate-400 p-3 rounded-2xl text-xs flex items-center gap-2">
+                        <i class="fa-solid fa-spinner animate-spin"></i> جاري التحقق والاستجابة...
+                    </div>
+                </div>
+            `;
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            try {
+                const systemPrompt = "أنت المساعد الذكي لمجمع فريق الابتسامة الطبي بمدينة نمرة (العرضيات، السعودية). أطباء المجمع: د. يوسف (أسنان وجراحة)، د. علي البارقي (أخصائي أسنان)، د. كمال (أسنان)، د. جاويد (جراح أسنان)، د. عادل (طبيب أطفال)، د. نسمة الصواف (طب عام وأطفال)، د. وجدان (جلدية وليزر)، الأخصائية هند (ليزر وتشقير حواجب وبشرة بجهاز أفلانش)، الممرضة فاطمة، الممرضة إسراء (طوارئ)، الممرضة نور (المختبر وسحب الدم)، والممرضة نجلاء. أوقات العمل من 8:00 صباحاً حتى 11:30 مساءً. رقم التواصل 0566007778. أجب باختصار ولطف وبأسلوب محترف باللغة العربية.";
+                
+                let apiKey = localStorage.getItem('smile_gemini_key') || "";
+                
+                if (!apiKey) {
+                    throw new Error("NO_KEY");
+                }
+
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: userMsg }] }],
+                        systemInstruction: { parts: [{ text: systemPrompt }] }
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API_ERROR_${response.status}`);
+                }
+
+                const data = await response.json();
+                const replyText = data.candidates?.[0]?.content?.parts?.[0]?.text || "نعتذر عن عدم الفهم الدقيق، يمكنك الاتصال فوراً باستقبال المجمع على الرقم: 0566007778";
+
+                document.getElementById(loadingId).remove();
+                chatBox.innerHTML += `
+                    <div class="flex gap-2">
+                        <div class="bg-slate-800 text-slate-200 p-3 rounded-2xl max-w-xs sm:max-w-md text-xs leading-relaxed">
+                            ${replyText}
+                        </div>
+                    </div>
+                `;
+            } catch (err) {
+                document.getElementById(loadingId).remove();
+
+                let fallbackReply = "أهلاً بك في مجمع فريق الابتسامة الطبي بنمرة! أطباؤنا وكوادرنا:\n\n• **عيادة الأسنان:** د. يوسف، د. علي البارقي، د. كمال، ود. جاويد.\n• **الأطفال والطب العام:** د. عادل، د. نسمة الصواف.\n• **الجلدية والليزر:** د. وجدان والأخصائية هند (جهاز أفلانش).\n• **أوقات العمل:** يومياً من 8:00 ص حتى 11:30 م.\n• **التواصل المباشر:** 0566007778.";
+
+                const msgLower = userMsg.toLowerCase();
+                if (msgLower.includes('وقت') || msgLower.includes('ساع') || msgLower.includes('متى') || msgLower.includes('دوام')) {
+                    fallbackReply = "ساعات العمل في مجمع فريق الابتسامة الطبي بنمرة: يومياً من 8:00 صباحاً حتى 11:30 مساءً.";
+                } else if (msgLower.includes('أسنان') || msgLower.includes('سنان') || msgLower.includes('يوسف') || msgLower.includes('علي')) {
+                    fallbackReply = "عيادات الأسنان تضم نخبة متميزة: د. يوسف، د. علي البارقي، د. كمال، ود. جاويد. نقدم خدمات سحب العصب، التنظيف، الحشوات التجميلية والتركيبات. يمكنك اختيار الطبيب والحجز مباشرة عبر النموذج أعلاه!";
+                } else if (msgLower.includes('ليزر') || msgLower.includes('هند') || msgLower.includes('تشقير') || msgLower.includes('بشرة')) {
+                    fallbackReply = "قسم الجلدية والليزر مزود بأحدث جهاز ليزر (أفلانش) بالتبريد الذاتي وتشقير الحواجب وتنظيف البشرة تحت إشراف د. وجدان والأخصائية هند والممرضة فاطمة.";
+                } else if (msgLower.includes('طفل') || msgLower.includes('أطفال') || msgLower.includes('عادل') || msgLower.includes('نسمة')) {
+                    fallbackReply = "عيادة الأطفال والطب العام تحت إشراف أخصائي الأطفال د. عادل والدكتورة نسمة الصواف لاستقبال كافة الحالات والمراجعات.";
+                } else if (msgLower.includes('رقم') || msgLower.includes('اتصال') || msgLower.includes('جوال') || msgLower.includes('واتس')) {
+                    fallbackReply = "رقم التواصل والواتساب المباشر لمجمع فريق الابتسامة الطبي بنمرة هو: **0566007778**";
+                }
+
+                if (err.message === "NO_KEY") {
+                    fallbackReply += `<br><br><span class="text-amber-400 text-[11px]">💡 أردت تفعيل الذكاء الاصطناعي التفاعلي المباشر؟ انقر فوق زر <button onclick="toggleApiKeyModal()" class="underline font-bold text-amber-300">مفتاح API</button> وأدخل مفتاحك المجاني.</span>`;
+                }
+
+                chatBox.innerHTML += `
+                    <div class="flex gap-2">
+                        <div class="bg-slate-800 text-slate-200 p-3 rounded-2xl max-w-xs sm:max-w-md text-xs leading-relaxed">
+                            ${fallbackReply}
+                        </div>
+                    </div>
+                `;
+            }
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>
