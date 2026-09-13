@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم الاستقبال - مجمع فريق الابتسامة الطبي</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Cairo Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #f1f5f9;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #0284c7 0%, #0d9488 100%);
+        }
+        .card-shadow {
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col">
+
+    <!-- Navbar / Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center text-white text-xl font-bold shadow-md">
+                    <i class="fa-solid fa-tooth"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-slate-800 text-base sm:text-lg leading-tight">شاشة الاستقبال - مجمع فريق الابتسامة الطبي</h1>
+                    <p class="text-xs text-slate-500"><i class="fa-solid fa-desktop text-sky-600 ml-1"></i>نظام إدارة المواعيد والأطباء المباشر</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="hidden sm:flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200 text-xs">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="font-bold text-slate-700">النظام متصل ومباشر</span>
+                </div>
+                <button onclick="location.reload()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 p-2 rounded-xl border border-slate-200 text-xs font-bold transition" title="تحديث البيانات">
+                    <i class="fa-solid fa-rotate-right"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dashboard Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex-1 w-full space-y-6">
+
+        <!-- Statistics Overview Cards -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 card-shadow flex items-center justify-between">
+                <div>
+                    <span class="text-xs text-slate-500 font-bold block">إجمالي الحجوزات</span>
+                    <span id="statTotal" class="text-2xl font-black text-slate-800">0</span>
+                </div>
+                <div class="w-12 h-12 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-calendar-days"></i>
+                </div>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-emerald-200 card-shadow flex items-center justify-between">
+                <div>
+                    <span class="text-xs text-emerald-700 font-bold block">المواعيد المؤكدة</span>
+                    <span id="statConfirmed" class="text-2xl font-black text-emerald-600">0</span>
+                </div>
+                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-amber-200 card-shadow flex items-center justify-between">
+                <div>
+                    <span class="text-xs text-amber-700 font-bold block">قيد الانتظار</span>
+                    <span id="statPending" class="text-2xl font-black text-amber-600">0</span>
+                </div>
+                <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-hourglass-half"></i>
+                </div>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-rose-200 card-shadow flex items-center justify-between">
+                <div>
+                    <span class="text-xs text-rose-700 font-bold block">الملغاة / المؤجلة</span>
+                    <span id="statCancelled" class="text-2xl font-black text-rose-600">0</span>
+                </div>
+                <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-circle-xmark"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Layout (Table + Controls) -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <!-- Left/Center Column: Bookings Table (2 cols on lg) -->
+            <div class="lg:col-span-2 bg-white rounded-3xl p-5 border border-slate-200 card-shadow space-y-4">
+                
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-100 pb-4">
+                    <div>
+                        <h2 class="font-bold text-slate-800 text-base flex items-center gap-2">
+                            <i class="fa-solid fa-list-check text-sky-600"></i>
+                            <span>سجل الحجوزات الواردة</span>
+                        </h2>
+                        <p class="text-xs text-slate-500">رصد وتحديث حالة المواعيد والتواصل مع المراجعين</p>
+                    </div>
+
+                    <button onclick="clearAllBookings()" class="text-xs text-rose-600 hover:text-rose-800 font-bold underline">
+                        <i class="fa-solid fa-trash-can ml-1"></i>مسح السجل بالكامل
+                    </button>
+                </div>
+
+                <!-- Search & Filters Bar -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div class="sm:col-span-2 relative">
+                        <i class="fa-solid fa-magnifying-glass absolute right-3.5 top-3 text-slate-400 text-xs"></i>
+                        <input type="text" id="adminSearchInput" onkeyup="renderDashboardView()" placeholder="ابحث برقم الطلب (SMILE-XXXX#) أو الاسم أو رقم الجوال..." class="w-full pr-9 pl-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-sky-500 focus:bg-white font-semibold transition">
+                    </div>
+                    <div>
+                        <select id="adminStatusFilter" onchange="renderDashboardView()" class="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none font-bold text-slate-700">
+                            <option value="all">جميع الحالات</option>
+                            <option value="pending">قيد الانتظار ⏳</option>
+                            <option value="confirmed">تم التأكيد ✅</option>
+                            <option value="postponed">مؤجل 📅</option>
+                            <option value="cancelled">ملغي ❌</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Bookings Table -->
+                <div class="overflow-x-auto border border-slate-200 rounded-2xl">
+                    <table class="w-full text-right border-collapse text-xs">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-600 border-b">
+                                <th class="p-3">كود الموعد</th>
+                                <th class="p-3">المراجع والجوال</th>
+                                <th class="p-3">الطبيب / القسم</th>
+                                <th class="p-3">الوقت والتاريخ</th>
+                                <th class="p-3">الحالة</th>
+                                <th class="p-3 text-center">إجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookingsTableBody">
+                            <tr>
+                                <td colspan="6" class="p-6 text-center text-slate-400 font-semibold">لا توجد حجوزات مسجلة حتى الآن</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Right Column: Settings & Doctors Management -->
+            <div class="space-y-6">
+
+                <!-- Reception Settings -->
+                <div class="bg-white rounded-3xl p-5 border border-slate-200 card-shadow space-y-4">
+                    <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2 border-b border-slate-100 pb-3">
+                        <i class="fa-solid fa-gear text-sky-600"></i>
+                        <span>إعدادات رقم الواتساب المعتمد</span>
+                    </h3>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">رقم الواتساب لاستقبال التذاكر:</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="clinicPhoneInput" value="966566007778" class="flex-1 p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:border-sky-500">
+                            <button onclick="saveClinicPhone()" class="bg-sky-600 hover:bg-sky-700 text-white px-3 py-2 rounded-xl text-xs font-bold transition">حفظ</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Work Hours Config -->
+                <div class="bg-white rounded-3xl p-5 border border-slate-200 card-shadow space-y-4">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                        <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-clock text-emerald-600"></i>
+                            <span>أوقات الدوام ومدة الكشف</span>
+                        </h3>
+                        <button onclick="saveScheduleSettings()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl text-xs font-bold shadow-sm transition">حفظ</button>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <div>
+                            <label class="block text-slate-600 mb-1 font-semibold">بداية ونهاية الصباح:</label>
+                            <div class="flex gap-1">
+                                <input type="time" id="mStartInput" class="w-full p-1.5 bg-slate-50 border border-slate-200 rounded-lg text-center font-bold">
+                                <input type="time" id="mEndInput" class="w-full p-1.5 bg-slate-50 border border-slate-200 rounded-lg text-center font-bold">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-slate-600 mb-1 font-semibold">بداية ونهاية المساء:</label>
+                            <div class="flex gap-1">
+                                <input type="time" id="eStartInput" class="w-full p-1.5 bg-slate-50 border border-slate-200 rounded-lg text-center font-bold">
+                                <input type="time" id="eEndInput" class="w-full p-1.5 bg-slate-50 border border-slate-200 rounded-lg text-center font-bold">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-slate-600 mb-1 font-semibold text-xs">مدة الموعد لكل مراجع:</label>
+                        <select id="slotDurationInput" class="w-full bg-slate-50 border border-slate-200 p-2 rounded-xl font-bold text-xs text-slate-800 focus:outline-none">
+                            <option value="15">15 دقيقة</option>
+                            <option value="20">20 دقيقة</option>
+                            <option value="30">30 دقيقة</option>
+                            <option value="45">45 دقيقة</option>
+                            <option value="60">ساعة كاملة</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Doctors Management -->
+                <div class="bg-white rounded-3xl p-5 border border-slate-200 card-shadow space-y-4">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                        <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-user-doctor text-sky-600"></i>
+                            <span>قائمة الأطباء والعيادات</span>
+                        </h3>
+                        <button onclick="addNewDoctorPrompt()" class="bg-sky-600 hover:bg-sky-700 text-white px-2.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1 transition">
+                            <i class="fa-solid fa-plus"></i> إضافة طبيب
+                        </button>
+                    </div>
+
+                    <div id="doctorsAdminList" class="space-y-3">
+                        <!-- Dynamic Doctors List -->
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- REASON / EXCUSE MODAL FOR RECEPTION -->
+    <div id="reasonModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl p-5 space-y-4 text-xs">
+            <div class="flex justify-between items-center border-b pb-2">
+                <h3 id="reasonModalTitle" class="font-bold text-sm text-slate-800 flex items-center gap-1.5">
+                    <i class="fa-solid fa-circle-exclamation text-amber-500"></i>
+                    <span>تحديد سبب التعديل والإشعارات</span>
+                </h3>
+                <button onclick="closeReasonModal()" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <p class="text-slate-600 font-semibold">اختر العذر/السبب الذي سيتم تضمينه في رسالة الواتساب للمراجع:</p>
+
+            <div class="space-y-2">
+                <button onclick="selectReasonOption('ظروف طارئة للطبيب المعالج')" class="w-full text-right p-2.5 bg-slate-50 hover:bg-sky-50 border border-slate-200 rounded-xl font-bold text-slate-700 hover:border-sky-300 transition flex items-center gap-2">
+                    <i class="fa-solid fa-user-doctor text-sky-600"></i>
+                    <span>ظروف طارئة للطبيب المعالج</span>
+                </button>
+                <button onclick="selectReasonOption('صيانة طارئة وتحديث أجهزة العيادة')" class="w-full text-right p-2.5 bg-slate-50 hover:bg-sky-50 border border-slate-200 rounded-xl font-bold text-slate-700 hover:border-sky-300 transition flex items-center gap-2">
+                    <i class="fa-solid fa-wrench text-amber-600"></i>
+                    <span>صيانة طارئة وتحديث أجهزة العيادة</span>
+                </button>
+                <button onclick="selectReasonOption('تعديل وتعارض في جدول المواعيد')" class="w-full text-right p-2.5 bg-slate-50 hover:bg-sky-50 border border-slate-200 rounded-xl font-bold text-slate-700 hover:border-sky-300 transition flex items-center gap-2">
+                    <i class="fa-solid fa-calendar-xmark text-indigo-600"></i>
+                    <span>تعديل وتعارض في جدول المواعيد</span>
+                </button>
+                <button onclick="selectReasonOption('عدم الرد على اتصالات التأكيد')" class="w-full text-right p-2.5 bg-slate-50 hover:bg-sky-50 border border-slate-200 rounded-xl font-bold text-slate-700 hover:border-sky-300 transition flex items-center gap-2">
+                    <i class="fa-solid fa-phone-slash text-rose-600"></i>
+                    <span>عدم الرد على اتصالات التأكيد</span>
+                </button>
+                <button onclick="selectReasonOption('بناءً على طلب المراجع شخصياً')" class="w-full text-right p-2.5 bg-slate-50 hover:bg-sky-50 border border-slate-200 rounded-xl font-bold text-slate-700 hover:border-sky-300 transition flex items-center gap-2">
+                    <i class="fa-solid fa-user-check text-emerald-600"></i>
+                    <span>بناءً على طلب المراجع شخصياً</span>
+                </button>
+            </div>
+
+            <div>
+                <label class="block font-bold text-slate-700 mb-1">أو أدخل سبباً مخصصاً:</label>
+                <input type="text" id="customReasonInput" placeholder="اكتب السبب هنا..." class="w-full p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-sky-500">
+            </div>
+
+            <div class="flex gap-2 pt-2">
+                <button onclick="confirmCustomReason()" class="w-full gradient-bg text-white font-bold py-2 rounded-xl text-xs shadow-md">تأكيد وإرسال الواتساب</button>
+                <button onclick="closeReasonModal()" class="w-full bg-slate-200 text-slate-700 font-bold py-2 rounded-xl text-xs">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-2 pointer-events-none w-11/12 max-w-md"></div>
+
+    <!-- Javascript Engine -->
+    <script>
+        const defaultData = {
+            whatsappNumber: "966566007778",
+            scheduleConfig: {
+                morningStart: "08:00",
+                morningEnd: "12:00",
+                eveningStart: "16:00",
+                eveningEnd: "23:30",
+                slotDuration: 30
+            },
+            departments: [
+                {
+                    id: "dentistry",
+                    name: "عيادة طب وجراحة الأسنان",
+                    doctors: [
+                        "د. يوسف (طب وجراحة الأسنان)",
+                        "د. علي البارقي (أخصائي أسنان)",
+                        "د. كمال (طبيب أسنان)",
+                        "د. جاويد (أخصائي جراحة أسنان)",
+                        "أول طبيب أسنان متاح"
+                    ]
+                },
+                {
+                    id: "dermatology",
+                    name: "عيادة الجلدية والليزر وتنشيط البشرة",
+                    doctors: [
+                        "الأخصائية هند (ليزر وتتشقير وتنظيف بشرة)",
+                        "د. وجدان (طبيبة الجلدية والتجميل)",
+                        "الممرضة فاطمة (عناية للبشرة وتتشقير)"
+                    ]
+                },
+                {
+                    id: "pediatrics",
+                    name: "عيادة الطب العام والأطفال",
+                    doctors: [
+                        "د. محمد العبدلي (أخصائي أطفال)",
+                        "طبيب الطب العام المتاح"
+                    ]
+                },
+                {
+                    id: "emergency",
+                    name: "قسم المختبر، التمريض والطوارئ",
+                    doctors: [
+                        "الممرضة إبراء (طوارئ وتمريض)",
+                        "الممرضة نور (المختبر وسحب الدم)",
+                        "الممرضة نجلاء (طوارئ وعلاجات)"
+                    ]
+                }
+            ],
+            bookings: []
+        };
+
+        let clinicData = JSON.parse(localStorage.getItem('smile_clinic_data')) || defaultData;
+        let pendingStatusTarget = { index: null, newStatus: null };
+
+        function saveData() {
+            localStorage.setItem('smile_clinic_data', JSON.stringify(clinicData));
+        }
+
+        function openWhatsAppUrl(url) {
+            if (!url) return;
+            try {
+                const a = document.createElement('a');
+                a.href = url;
+                a.target = '_blank';
+                a.rel = 'noopener noreferrer';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } catch (err) {
+                window.location.href = url;
+            }
+        }
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+
+            const toast = document.createElement('div');
+            const bgClass = type === 'error' ? 'bg-rose-600' : type === 'success' ? 'bg-emerald-600' : 'bg-slate-800';
+            const iconClass = type === 'error' ? 'fa-circle-exclamation' : type === 'success' ? 'fa-circle-check' : 'fa-circle-info';
+
+            toast.className = `${bgClass} text-white text-xs font-semibold px-4 py-3 rounded-xl shadow-xl flex items-center justify-between gap-3 pointer-events-auto transform transition-all duration-300 translate-y-4 opacity-0`;
+            toast.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid ${iconClass} text-sm"></i>
+                    <span>${message}</span>
+                </div>
+                <button onclick="this.parentElement.remove()" class="text-white/80 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            `;
+
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove('translate-y-4', 'opacity-0'), 10);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
+        function renderDashboardView() {
+            document.getElementById('clinicPhoneInput').value = clinicData.whatsappNumber || "966566007778";
+
+            const cfg = clinicData.scheduleConfig || defaultData.scheduleConfig;
+            document.getElementById('mStartInput').value = cfg.morningStart;
+            document.getElementById('mEndInput').value = cfg.morningEnd;
+            document.getElementById('eStartInput').value = cfg.eveningStart;
+            document.getElementById('eEndInput').value = cfg.eveningEnd;
+            document.getElementById('slotDurationInput').value = cfg.slotDuration;
+
+            // Stats
+            let total = clinicData.bookings.length;
+            let confirmed = clinicData.bookings.filter(b => b.status === 'confirmed').length;
+            let pending = clinicData.bookings.filter(b => b.status === 'pending' || !b.status).length;
+            let cancelled = clinicData.bookings.filter(b => b.status === 'cancelled' || b.status === 'postponed').length;
+
+            document.getElementById('statTotal').textContent = total;
+            document.getElementById('statConfirmed').textContent = confirmed;
+            document.getElementById('statPending').textContent = pending;
+            document.getElementById('statCancelled').textContent = cancelled;
+
+            // Search & Filter
+            const searchQuery = (document.getElementById('adminSearchInput')?.value || '').toLowerCase().trim();
+            const statusFilter = document.getElementById('adminStatusFilter')?.value || 'all';
+
+            let filteredBookings = clinicData.bookings.map((b, index) => ({ ...b, originalIndex: index }))
+            .filter(b => {
+                const matchesSearch = !searchQuery || 
+                    (b.code && b.code.toLowerCase().includes(searchQuery)) ||
+                    (b.name && b.name.toLowerCase().includes(searchQuery)) ||
+                    (b.phone && b.phone.includes(searchQuery));
+
+                const matchesStatus = statusFilter === 'all' || 
+                    (statusFilter === 'pending' && (!b.status || b.status === 'pending')) ||
+                    (b.status === statusFilter);
+
+                return matchesSearch && matchesStatus;
+            });
+
+            // Table Render
+            const tbody = document.getElementById('bookingsTableBody');
+            tbody.innerHTML = '';
+
+            if (filteredBookings.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="p-6 text-center text-slate-400 font-semibold">لا توجد نتائج تطابق البحث أو الفلتر المحدد</td></tr>';
+            } else {
+                filteredBookings.forEach((b) => {
+                    const tr = document.createElement('tr');
+                    tr.className = "border-b text-slate-700 hover:bg-slate-50 transition";
+                    
+                    let statusBadgeHtml = '';
+                    const currentStatus = b.status || 'pending';
+
+                    if (currentStatus === 'confirmed') {
+                        statusBadgeHtml = `<span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full inline-block mb-1">مؤكد ✅</span>`;
+                    } else if (currentStatus === 'postponed') {
+                        statusBadgeHtml = `<span class="bg-sky-100 text-sky-800 text-[10px] font-bold px-2 py-0.5 rounded-full inline-block mb-1">مؤجل 📅</span>`;
+                    } else if (currentStatus === 'cancelled') {
+                        statusBadgeHtml = `<span class="bg-rose-100 text-rose-800 text-[10px] font-bold px-2 py-0.5 rounded-full inline-block mb-1">ملغي ❌</span>`;
+                    } else {
+                        statusBadgeHtml = `<span class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full inline-block mb-1">قيد الانتظار ⏳</span>`;
+                    }
+
+                    tr.innerHTML = `
+                        <td class="p-3 font-bold text-emerald-700 font-mono select-all">${b.code}</td>
+                        <td class="p-3">
+                            <div class="font-bold text-slate-800">${b.name}</div>
+                            <div class="text-[10px] text-slate-500 font-mono">${b.phone || 'بدون رقم'}</div>
+                            ${b.notes ? `<div class="text-[10px] text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 mt-1 font-semibold"><i class="fa-regular fa-note-sticky ml-1 text-amber-600"></i>${b.notes}</div>` : ''}
+                        </td>
+                        <td class="p-3">${b.dept} <br><span class="text-[10px] text-slate-400 font-semibold">${b.doctor}</span></td>
+                        <td class="p-3 text-[11px] font-bold text-sky-900">${b.date}</td>
+                        <td class="p-3">
+                            ${statusBadgeHtml}
+                            <select onchange="handleStatusChange(${b.originalIndex}, this.value)" class="block text-[10px] font-bold bg-white border border-slate-300 rounded p-1 text-slate-700 focus:outline-none focus:border-sky-500">
+                                <option value="pending" ${currentStatus === 'pending' ? 'selected' : ''}>⏳ قيد الانتظار</option>
+                                <option value="confirmed" ${currentStatus === 'confirmed' ? 'selected' : ''}>✅ تأكيد الموعد</option>
+                                <option value="postponed" ${currentStatus === 'postponed' ? 'selected' : ''}>📅 تأجيل الموعد</option>
+                                <option value="cancelled" ${currentStatus === 'cancelled' ? 'selected' : ''}>❌ إلغاء الموعد</option>
+                            </select>
+                        </td>
+                        <td class="p-3 text-center space-x-1 space-x-reverse">
+                            <button onclick="sendPatientNotification(${b.originalIndex})" title="إرسال إشعار للمراجع عبر الواتساب" class="inline-flex items-center justify-center w-7 h-7 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition shadow-sm">
+                                <i class="fa-brands fa-whatsapp text-xs"></i>
+                            </button>
+                            <button onclick="addBookingNote(${b.originalIndex})" title="إضافة ملاحظة استقبال" class="w-7 h-7 bg-amber-100 hover:bg-amber-200 text-amber-800 rounded-lg transition inline-flex items-center justify-center text-xs">
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+                            <button onclick="deleteBooking(${b.originalIndex})" title="حذف الموعد" class="w-7 h-7 bg-rose-100 hover:bg-rose-200 text-rose-600 rounded-lg transition inline-flex items-center justify-center text-xs">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            // Doctors Admin List
+            const docsListContainer = document.getElementById('doctorsAdminList');
+            if (docsListContainer) {
+                docsListContainer.innerHTML = clinicData.departments.map((dept, deptIdx) => `
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-3">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="font-bold text-slate-800 text-xs">${dept.name}</span>
+                            <span class="text-[10px] bg-sky-100 text-sky-800 font-bold px-2 py-0.5 rounded-full">${dept.doctors.length} أطباء</span>
+                        </div>
+                        <div class="space-y-1">
+                            ${dept.doctors.map((doc, docIdx) => `
+                                <div class="flex justify-between items-center bg-white p-2 rounded-lg border border-slate-100 text-[11px]">
+                                    <span class="text-slate-700 font-medium"><i class="fa-solid fa-user-doctor text-slate-400 ml-1.5"></i>${doc}</span>
+                                    <button onclick="removeDoctor(${deptIdx}, ${docIdx})" title="حذف الطبيب" class="text-rose-500 hover:text-rose-700 p-1">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function handleStatusChange(index, newStatus) {
+            if (!clinicData.bookings[index]) return;
+
+            if (newStatus === 'postponed' || newStatus === 'cancelled') {
+                pendingStatusTarget = { index: index, newStatus: newStatus };
+                document.getElementById('reasonModalTitle').innerHTML = newStatus === 'cancelled' ? 
+                    `<i class="fa-solid fa-circle-xmark text-rose-600 ml-1"></i><span>سبب إلغاء الموعد وإشعار المراجع</span>` : 
+                    `<i class="fa-solid fa-calendar-xmark text-sky-600 ml-1"></i><span>سبب تأجيل الموعد وإشعار المراجع</span>`;
+                document.getElementById('reasonModal').classList.remove('hidden');
+            } else {
+                clinicData.bookings[index].status = newStatus;
+                saveData();
+                renderDashboardView();
+                showToast(`تم تغيير حالة الموعد بنجاح`, 'success');
+                sendPatientNotification(index);
+            }
+        }
+
+        function selectReasonOption(reasonText) {
+            if (pendingStatusTarget.index !== null) {
+                const idx = pendingStatusTarget.index;
+                clinicData.bookings[idx].status = pendingStatusTarget.newStatus;
+                clinicData.bookings[idx].notes = reasonText;
+                saveData();
+                closeReasonModal();
+                renderDashboardView();
+                showToast(`تم تحديث حالة الموعد`, 'success');
+                sendPatientNotification(idx);
+            }
+        }
+
+        function confirmCustomReason() {
+            const customText = document.getElementById('customReasonInput').value.trim();
+            if (!customText) {
+                showToast('يرجى إدخال سبب التعديل أو الاختيار من القائمة', 'error');
+                return;
+            }
+            selectReasonOption(customText);
+        }
+
+        function closeReasonModal() {
+            document.getElementById('reasonModal').classList.add('hidden');
+            document.getElementById('customReasonInput').value = '';
+            pendingStatusTarget = { index: null, newStatus: null };
+        }
+
+        function sendPatientNotification(index) {
+            const b = clinicData.bookings[index];
+            if (!b || !b.phone) {
+                showToast('لا يوجد رقم جوال لهذا المراجع', 'error');
+                return;
+            }
+
+            let phoneClean = b.phone.replace(/[^0-9]/g, '');
+            if (phoneClean.startsWith('05')) {
+                phoneClean = '966' + phoneClean.substring(1);
+            } else if (phoneClean.startsWith('5')) {
+                phoneClean = '966' + phoneClean;
+            }
+
+            let msg = '';
+            const status = b.status || 'pending';
+
+            if (status === 'confirmed') {
+                msg = `أهلاً بك أ. ${b.name} 🌸\n` +
+                      `يسعدنا إبلاغك بتأكيد موعدك رقم (${b.code}) في مجمع فريق الابتسامة الطبي.\n\n` +
+                      `🏥 العيادة: ${b.dept}\n` +
+                      `🩺 الطبيب: ${b.doctor}\n` +
+                      `📅 التاريخ والوقت: ${b.date}\n\n` +
+                      `📌 نرجو الحضور قبل الموعد بـ 15 دقيقة. نتمنى لك دوام الصحة والعافية!`;
+            } else if (status === 'postponed') {
+                msg = `أهلاً بك أ. ${b.name} 🌿\n` +
+                      `نود إحاطتك بتأجيل موعدك رقم (${b.code}) لدى ${b.doctor}.\n` +
+                      `📝 السبب/الملاحظة: ${b.notes || 'لظروف طارئة في جدول العيادة'}.\n\n` +
+                      `يرجى التواصل معنا لاختيار وتنسيق موعد جديد يناسبك.`;
+            } else if (status === 'cancelled') {
+                msg = `أهلاً بك أ. ${b.name} 🙏\n` +
+                      `نعتذر منك، تم إلغاء موعدك رقم (${b.code}) لدى ${b.doctor}.\n` +
+                      `📝 السبب: ${b.notes || 'لظروف طارئة في العيادة'}.\n\n` +
+                      `نرحب بتواصلك معنا لإعادة الجدولة في وقت آخر.`;
+            } else {
+                msg = `أهلاً بك أ. ${b.name} 👋\n` +
+                      `تذكير بشأن طلب موعدك رقم (${b.code}) لدى ${b.doctor}.\n` +
+                      `حالة الحجز حالياً: قيد الانتظار والمراجعة.`;
+            }
+
+            const url = `https://api.whatsapp.com/send?phone=${phoneClean}&text=${encodeURIComponent(msg)}`;
+            openWhatsAppUrl(url);
+        }
+
+        function addBookingNote(index) {
+            if (clinicData.bookings[index]) {
+                const currentNote = clinicData.bookings[index].notes || '';
+                const newNote = prompt("أدخل ملاحظة موظف الاستقبال:", currentNote);
+                if (newNote !== null) {
+                    clinicData.bookings[index].notes = newNote.trim();
+                    saveData();
+                    renderDashboardView();
+                    showToast('تم حفظ الملاحظة بنجاح', 'success');
+                }
+            }
+        }
+
+        function saveScheduleSettings() {
+            clinicData.scheduleConfig = {
+                morningStart: document.getElementById('mStartInput').value || "08:00",
+                morningEnd: document.getElementById('mEndInput').value || "12:00",
+                eveningStart: document.getElementById('eStartInput').value || "16:00",
+                eveningEnd: document.getElementById('eEndInput').value || "23:30",
+                slotDuration: parseInt(document.getElementById('slotDurationInput').value) || 30
+            };
+            saveData();
+            showToast('تم حفظ أوقات الدوام بنجاح!', 'success');
+        }
+
+        function deleteBooking(index) {
+            clinicData.bookings.splice(index, 1);
+            saveData();
+            renderDashboardView();
+            showToast('تم حذف الموعد من السجل', 'info');
+        }
+
+        function clearAllBookings() {
+            if (confirm("هل أنت تأكد من مسح جميع الحجوزات من السجل؟")) {
+                clinicData.bookings = [];
+                saveData();
+                renderDashboardView();
+                showToast('تم مسح جميع الحجوزات', 'info');
+            }
+        }
+
+        function saveClinicPhone() {
+            const num = document.getElementById('clinicPhoneInput').value.trim();
+            if (num) {
+                clinicData.whatsappNumber = num;
+                saveData();
+                showToast('تم تحديث رقم واتساب الاستقبال بنجاح!', 'success');
+            }
+        }
+
+        function addNewDoctorPrompt() {
+            const deptNames = clinicData.departments.map((d, i) => `${i + 1}. ${d.name}`).join('\n');
+            const choice = prompt(`اختر رقم العيادة لإضافة طبيب إليها:\n${deptNames}`);
+            const deptIdx = parseInt(choice) - 1;
+
+            if (clinicData.departments[deptIdx]) {
+                const docName = prompt("أدخل اسم الطبيب واللقب الطبي:");
+                if (docName && docName.trim()) {
+                    clinicData.departments[deptIdx].doctors.push(docName.trim());
+                    saveData();
+                    renderDashboardView();
+                    showToast('تم إضافة الطبيب بنجاح', 'success');
+                }
+            }
+        }
+
+        function removeDoctor(deptIdx, docIdx) {
+            clinicData.departments[deptIdx].doctors.splice(docIdx, 1);
+            saveData();
+            renderDashboardView();
+            showToast('تم حذف الطبيب من القائمة', 'info');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderDashboardView();
+        });
+    </script>
+</body>
+</html>
